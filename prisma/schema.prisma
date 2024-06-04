@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@map("users")
+}
+
+model Customer {
+  id        String    @id @default(uuid())
+  invoices  Invoice[]
+  name      String    @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  imageUrl  String    @map(name: "image_url") @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
+
+  @@map("customers")
+}
+
+enum InvoiceStatus {
+  Pending @map("pending")
+  Paid    @map("paid")
+}
+
+model Invoice {
+  id         String        @id @default(uuid())
+  customerId String        @map(name: "customer_id")
+  customer   Customer      @relation(fields: [customerId], references: [id])
+  amount     Int
+  status     InvoiceStatus @default(Pending)
+  date       DateTime      @db.Date
+  createdAt  DateTime      @default(now()) @map(name: "created_at")
+  updatedAt  DateTime      @updatedAt @map(name: "updated_at")
+
+  @@map("invoices")
+}

@@ -7,8 +7,12 @@
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@prisma/client": "^5.14.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "20.5.7",
     "@vercel/postgres": "^0.5.0",
@@ -17,6 +21,7 @@
     "clsx": "^2.0.0",
     "next": "^14.0.2",
     "postcss": "8.4.31",
+    "prisma": "^5.14.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
@@ -33,7 +38,8 @@
     "eslint-config-next": "^14.0.0",
     "eslint-config-prettier": "9.0.0",
     "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.4"
+    "prettier-plugin-tailwindcss": "0.5.4",
+    "ts-node": "^10.9.2"
   },
   "engines": {
     "node": ">=18.17.0"
