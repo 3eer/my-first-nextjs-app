@@ -15,11 +15,11 @@ const prisma = new PrismaClient();
 
 export async function fetchMonthlyRevenue() {
   // テストの為に遅くしてる
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 1500));
   try {
     return await prisma.revenue.findMany({
       where: {
-        userId: '410544b2-4001-4271-9855-fec4b6a6442a' // FIXME: ログインを実装したら修正
+        userId: '410544b2-4001-4271-9855-fec4b6a6442a', // FIXME: ログインを実装したら修正
       },
       orderBy: {
         month: 'asc',
@@ -48,20 +48,18 @@ export async function fetchLatestInvoices(): Promise<InvoiceWithCustomer[]> {
 }
 
 export async function fetchCardData() {
-  // テストの為に遅くしてる
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   try {
-    const customerCountPromise = prisma.customer.findMany();;
+    const customerCountPromise = prisma.customer.findMany();
     const invoiceCountPromise = prisma.invoice.findMany();
     const pendingInvoicePromise = prisma.invoice.findMany({
       where: {
         status: InvoiceStatus.Pending,
-      }
+      },
     });
     const paidInvoicePromise = prisma.invoice.findMany({
       where: {
         status: InvoiceStatus.Paid,
-      }
+      },
     });
 
     const data = await Promise.all([
@@ -73,8 +71,14 @@ export async function fetchCardData() {
 
     const numberOfCustomers = data[0].length;
     const numberOfInvoices = data[1].length;
-    const totalPendingInvoices = data[2].reduce((total, invoice) => total + invoice.amount, 0);
-    const totalPaidInvoices = data[3].reduce((total, invoice) => total + invoice.amount, 0);
+    const totalPendingInvoices = data[2].reduce(
+      (total, invoice) => total + invoice.amount,
+      0,
+    );
+    const totalPaidInvoices = data[3].reduce(
+      (total, invoice) => total + invoice.amount,
+      0,
+    );
 
     return {
       numberOfCustomers,
