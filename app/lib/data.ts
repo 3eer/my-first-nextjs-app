@@ -24,6 +24,7 @@ export async function fetchMonthlyRevenue() {
       orderBy: {
         month: 'asc',
       },
+      take: 12,
     });
   } catch (error) {
     console.error('Database Error:', error);
