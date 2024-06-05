@@ -4,6 +4,7 @@ import {
   users,
   customers,
   invoices,
+  userRevenue,
 } from '../app/lib/placeholder-data.js';
 
 const prisma = new PrismaClient();
@@ -63,10 +64,34 @@ const createInvoices = async function() {
   console.log(`Seeded ${insertedInvoices.length} invoices`);
 };
 
+const createUserRevenue = async function() {
+  const insertedUserRevenue = await Promise.all(
+    userRevenue.map(async (revenue) => {
+      return await prisma.revenue.upsert({
+        where: {
+          userId_month: {
+            userId: revenue.user_id,
+            month: revenue.month,
+          }
+        },
+        update: {},
+        create: {
+          userId: revenue.user_id,
+          month: revenue.month,
+          revenue: revenue.revenue,
+        }
+      });
+    }),
+  );
+
+  console.log(`Seeded ${insertedUserRevenue.length} revenue`);
+};
+
 async function main() {
   await createUsers();
   await createCustomers();
   await createInvoices();
+  await createUserRevenue();
 };
 
 main()

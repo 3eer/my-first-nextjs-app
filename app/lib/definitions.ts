@@ -1,7 +1,5 @@
-// This file contains type definitions for your data.
-// It describes the shape of the data, and what data type each property should accept.
-// For simplicity of teaching, we're manually defining these types.
-// However, these types are generated automatically if you're using an ORM such as Prisma.
+import { Prisma } from '@prisma/client';
+
 export type User = {
   id: string;
   name: string;
@@ -25,6 +23,10 @@ export type Invoice = {
   // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
   status: 'pending' | 'paid';
 };
+
+export type InvoiceWithCustomer = Prisma.InvoiceGetPayload<{
+  include: { customer: true }
+}>
 
 export type Revenue = {
   month: string;
