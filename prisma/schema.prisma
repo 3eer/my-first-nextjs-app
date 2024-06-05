@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id        String    @id @default(uuid())
+  revenues  Revenue[]
+  name      String    @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  password  String    @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
 
   @@map("users")
 }
@@ -46,4 +47,17 @@ model Invoice {
   updatedAt  DateTime      @updatedAt @map(name: "updated_at")
 
   @@map("invoices")
+}
+
+model Revenue {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map(name: "user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  month     String   @db.VarChar(6)
+  revenue   Int
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@unique(fields: [userId, month])
+  @@map("revenues")
 }
