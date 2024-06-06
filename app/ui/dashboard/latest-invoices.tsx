@@ -1,11 +1,25 @@
+'use client';
+
+import useSWR, { preload } from 'swr';
 import { Icon } from '@/app/components/atoms/Icon';
 import { lusitana } from '@/app/ui/fonts';
-import { InvoiceWithCustomer } from '@/app/lib/definitions';
-import { fetchLatestInvoices } from '@/app/lib/data';
 import { InvoiceTableRow } from '@/app/components/molecuels/InvoiceTableRow';
+import { InvoiceWithCustomer } from '@/app/lib/definitions';
+import { LatestInvoicesSkeleton } from '@/app/ui/skeletons';
 
-export default async function LatestInvoices() {
-  const latestInvoices: InvoiceWithCustomer[] = await fetchLatestInvoices();
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+preload('/api/invoices', fetcher);
+
+export default function LatestInvoices() {
+  const {
+    data: LatestInvoices,
+    error,
+    isLoading,
+  } = useSWR<InvoiceWithCustomer[]>('/api/invoices', fetcher, { suspense: true });
+  if (error) return <div>Failed to load invoices</div>;
+  if (!LatestInvoices) return;
+  if (isLoading) return <LatestInvoicesSkeleton />;
 
   return (
     <div className="flex w-full flex-col md:col-span-4">
@@ -14,7 +28,7 @@ export default async function LatestInvoices() {
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
-          {latestInvoices.map((invoice, index) => {
+          {LatestInvoices.map((invoice, index) => {
             return (
               <InvoiceTableRow
                 key={invoice.id}
