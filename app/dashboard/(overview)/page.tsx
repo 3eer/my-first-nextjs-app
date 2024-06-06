@@ -5,7 +5,6 @@ import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 import {
   RevenueChartSkeleton,
-  LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
 

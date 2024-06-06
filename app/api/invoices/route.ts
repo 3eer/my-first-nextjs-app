@@ -3,5 +3,5 @@ import { InvoiceWithCustomer } from '@/app/lib/definitions';
 
 export async function GET() {
   const data: InvoiceWithCustomer[] = await fetchLatestInvoices();
-  return Response.json(data)
+  return Response.json(data);
 }

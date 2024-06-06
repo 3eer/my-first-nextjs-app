@@ -31,6 +31,8 @@ describe('Card component', () => {
     // Check value
     const valueElement = screen.getByText(value);
     expect(valueElement).toBeInTheDocument();
-    expect(valueElement).toHaveClass(`${lusitana.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`);
+    expect(valueElement).toHaveClass(
+      `${lusitana.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`,
+    );
   });
 });

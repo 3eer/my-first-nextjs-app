@@ -16,7 +16,9 @@ export default function LatestInvoices() {
     data: LatestInvoices,
     error,
     isLoading,
-  } = useSWR<InvoiceWithCustomer[]>('/api/invoices', fetcher, { suspense: true });
+  } = useSWR<InvoiceWithCustomer[]>('/api/invoices', fetcher, {
+    suspense: true,
+  });
   if (error) return <div>Failed to load invoices</div>;
   if (!LatestInvoices) return;
   if (isLoading) return <LatestInvoicesSkeleton />;
