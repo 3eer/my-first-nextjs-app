@@ -25,8 +25,8 @@ export type Invoice = {
 };
 
 export type InvoiceWithCustomer = Prisma.InvoiceGetPayload<{
-  include: { customer: true }
-}>
+  include: { customer: true };
+}>;
 
 export type Revenue = {
   month: string;

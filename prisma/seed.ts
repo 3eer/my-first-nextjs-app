@@ -8,7 +8,7 @@ import {
 } from '../app/lib/placeholder-data.js';
 
 const prisma = new PrismaClient();
-const createUsers = async function() {
+const createUsers = async function () {
   const insertedUsers = await Promise.all(
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -20,7 +20,7 @@ const createUsers = async function() {
           email: user.email,
           name: user.name,
           password: hashedPassword,
-        }
+        },
       });
     }),
   );
@@ -28,7 +28,7 @@ const createUsers = async function() {
   console.log(`Seeded ${insertedUsers.length} users`);
 };
 
-const createCustomers = async function() {
+const createCustomers = async function () {
   const insertedCustomers = await Promise.all(
     customers.map(async (customer) => {
       return await prisma.customer.upsert({
@@ -39,7 +39,7 @@ const createCustomers = async function() {
           email: customer.email,
           name: customer.name,
           imageUrl: customer.image_url,
-        }
+        },
       });
     }),
   );
@@ -47,16 +47,19 @@ const createCustomers = async function() {
   console.log(`Seeded ${insertedCustomers.length} customers`);
 };
 
-const createInvoices = async function() {
+const createInvoices = async function () {
   const insertedInvoices = await Promise.all(
     invoices.map(async (invoice) => {
       return await prisma.invoice.create({
         data: {
           customerId: invoice.customer_id,
           amount: invoice.amount,
-          status: invoice.status === "pending" ? InvoiceStatus.Pending : InvoiceStatus.Paid,
+          status:
+            invoice.status === 'pending'
+              ? InvoiceStatus.Pending
+              : InvoiceStatus.Paid,
           date: new Date(invoice.date),
-        }
+        },
       });
     }),
   );
@@ -64,7 +67,7 @@ const createInvoices = async function() {
   console.log(`Seeded ${insertedInvoices.length} invoices`);
 };
 
-const createUserRevenue = async function() {
+const createUserRevenue = async function () {
   const insertedUserRevenue = await Promise.all(
     userRevenue.map(async (revenue) => {
       return await prisma.revenue.upsert({
@@ -72,14 +75,14 @@ const createUserRevenue = async function() {
           userId_month: {
             userId: revenue.user_id,
             month: revenue.month,
-          }
+          },
         },
         update: {},
         create: {
           userId: revenue.user_id,
           month: revenue.month,
           revenue: revenue.revenue,
-        }
+        },
       });
     }),
   );
@@ -92,7 +95,7 @@ async function main() {
   await createCustomers();
   await createInvoices();
   await createUserRevenue();
-};
+}
 
 main()
   .then(async () => await prisma.$disconnect())

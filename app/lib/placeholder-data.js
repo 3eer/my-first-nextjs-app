@@ -166,18 +166,66 @@ const invoices = [
 ];
 
 const userRevenue = [
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202401', revenue: 2000 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202402', revenue: 1800 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202403', revenue: 2200 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202404', revenue: 2500 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202405', revenue: 2300 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202406', revenue: 3200 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202407', revenue: 3500 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202408', revenue: 3700 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202409', revenue: 2500 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202410', revenue: 2800 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202411', revenue: 3000 },
-  { user_id: "410544b2-4001-4271-9855-fec4b6a6442a", month: '202412', revenue: 4800 },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202401',
+    revenue: 2000,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202402',
+    revenue: 1800,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202403',
+    revenue: 2200,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202404',
+    revenue: 2500,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202405',
+    revenue: 2300,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202406',
+    revenue: 3200,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202407',
+    revenue: 3500,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202408',
+    revenue: 3700,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202409',
+    revenue: 2500,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202410',
+    revenue: 2800,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202411',
+    revenue: 3000,
+  },
+  {
+    user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+    month: '202412',
+    revenue: 4800,
+  },
 ];
 
 module.exports = {
