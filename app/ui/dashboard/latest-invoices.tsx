@@ -15,7 +15,13 @@ export default async function LatestInvoices() {
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
           {latestInvoices.map((invoice, index) => {
-            return <InvoiceTableRow key={invoice.id} invoice={invoice} index={index} />;
+            return (
+              <InvoiceTableRow
+                key={invoice.id}
+                invoice={invoice}
+                index={index}
+              />
+            );
           })}
         </div>
         <div className="flex items-center pb-2 pt-6">

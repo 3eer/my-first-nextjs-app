@@ -41,6 +41,7 @@ export function BarGraph({ data, height = 350 }: BarGraphProps) {
             style={{
               height: `${(height / topLabel) * row.value}px`,
             }}
+            data-testid="graph-bar"
           ></div>
           <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">
             {row.label.slice(4, 6)}

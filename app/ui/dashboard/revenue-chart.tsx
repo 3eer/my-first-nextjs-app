@@ -1,5 +1,8 @@
 import { Icon } from '@/app/components/atoms/Icon';
-import { BarGraph, BarGraphDataRowInterface } from '@/app/components/molecuels/BarGraph';
+import {
+  BarGraph,
+  BarGraphDataRowInterface,
+} from '@/app/components/molecuels/BarGraph';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchMonthlyRevenue } from '@/app/lib/data';
 import { Revenue } from '@prisma/client';

@@ -45,5 +45,5 @@ export function Icon({ type, className }: IconProps) {
   const IconComponent = iconComponentMap[type];
   if (!IconComponent) return null;
 
-  return <IconComponent className={className} />;
+  return <IconComponent className={className} data-testid={type} />;
 }
