@@ -3,6 +3,9 @@ import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
+import { InvoiceSearchParams } from '@/app/lib/definitions';
+
+// const fetcher = (url: string, options: InvoiceSearchParams) => fetch(url, options).then((res) => res.json());
 
 export default async function InvoicesTable({
   query,
@@ -12,6 +15,19 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   const invoices = await fetchFilteredInvoices(query, currentPage);
+
+  // FIX: SWRを使った場合にページを押しても情報が更新されない
+  // const searchParams: InvoiceSearchParams = { query, currentPage };
+  // const {
+  //   data: LatestInvoices,
+  //   error,
+  //   isLoading,
+  // } = useSWR<InvoiceWithCustomer[]>(['/api/invoices/search', searchParams], ([]) => fetcher(url, params), {
+  //   suspense: true,
+  // });
+  // if (error) return <div>Failed to load invoices</div>;
+  // if (!LatestInvoices) return;
+  // if (isLoading) return <LatestInvoicesSkeleton />;
 
   return (
     <div className="mt-6 flow-root">
@@ -27,15 +43,15 @@ export default async function InvoicesTable({
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={invoice.image_url}
+                        src={invoice.customer.imageUrl}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        alt={`${invoice.customer.name}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <p>{invoice.customer.name}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{invoice.email}</p>
+                    <p className="text-sm text-gray-500">{invoice.customer.email}</p>
                   </div>
                   <InvoiceStatus status={invoice.status} />
                 </div>
@@ -86,17 +102,17 @@ export default async function InvoicesTable({
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={invoice.image_url}
+                        src={invoice.customer.imageUrl}
                         className="rounded-full"
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        alt={`${invoice.customer.name}'s profile picture`}
                       />
-                      <p>{invoice.name}</p>
+                      <p>{invoice.customer.name}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {invoice.email}
+                    {invoice.customer.email}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatCurrency(invoice.amount)}

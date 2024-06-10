@@ -1,5 +1,10 @@
 import { Prisma } from '@prisma/client';
 
+export interface InvoiceSearchParams extends RequestInit {
+  query: string;
+  currentPage: number;
+}
+
 export type User = {
   id: string;
   name: string;

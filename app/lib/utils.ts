@@ -8,17 +8,17 @@ export const formatCurrency = (amount: number) => {
 };
 
 export const formatDateToLocal = (
-  dateStr: string,
+  date: Date,
   locale: string = 'ja-JP',
 ) => {
-  const date = new Date(dateStr);
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
+  // const options: Intl.DateTimeFormatOptions = {
+  //   day: 'numeric',
+  //   month: 'short',
+  //   year: 'numeric',
+  // };
+  // const formatter = new Intl.DateTimeFormat(locale, options);
+  // return formatter.format(date);
+  return date instanceof Date;
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
