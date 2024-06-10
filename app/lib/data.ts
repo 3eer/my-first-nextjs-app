@@ -1,8 +1,6 @@
 import { sql } from '@vercel/postgres';
 import {
-  CustomerField,
   CustomersTableType,
-  InvoiceForm,
   InvoicesTable,
   InvoiceWithCustomer,
   User,
@@ -11,6 +9,7 @@ import {
 } from './definitions';
 import { PrismaClient, InvoiceStatus } from '@prisma/client';
 import { formatCurrency } from './utils';
+import { IdentificationIcon } from '@heroicons/react/24/outline';
 
 const prisma = new PrismaClient();
 
@@ -161,23 +160,12 @@ export async function fetchInvoicesTotalPageCount(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
-    const data = await sql<InvoiceForm>`
-      SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
-    `;
-
-    const invoice = data.rows.map((invoice) => ({
-      ...invoice,
-      // Convert amount from cents to dollars
-      amount: invoice.amount / 100,
-    }));
-
-    return invoice[0];
+    const invoice = await prisma.invoice.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return invoice;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
@@ -186,15 +174,7 @@ export async function fetchInvoiceById(id: string) {
 
 export async function fetchCustomers() {
   try {
-    const data = await sql<CustomerField>`
-      SELECT
-        id,
-        name
-      FROM customers
-      ORDER BY name ASC
-    `;
-
-    const customers = data.rows;
+    const customers = await prisma.customer.findMany();
     return customers;
   } catch (err) {
     console.error('Database Error:', err);

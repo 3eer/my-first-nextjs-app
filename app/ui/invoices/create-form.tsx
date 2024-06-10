@@ -1,4 +1,4 @@
-import { CustomerField } from '@/app/lib/definitions';
+import { InvoiceStatus, Customer } from '@prisma/client';
 import Link from 'next/link';
 import {
   CheckIcon,
@@ -7,10 +7,11 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
+export default function Form({ customers }: { customers: Customer[] }) {
   return (
-    <form>
+    <form action={createInvoice}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -69,7 +70,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   id="pending"
                   name="status"
                   type="radio"
-                  value="pending"
+                  value={InvoiceStatus.Pending}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
@@ -84,7 +85,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                   id="paid"
                   name="status"
                   type="radio"
-                  value="paid"
+                  value={InvoiceStatus.Paid}
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label

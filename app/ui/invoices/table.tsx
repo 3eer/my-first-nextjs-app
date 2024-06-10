@@ -16,7 +16,7 @@ export default async function InvoicesTable({
 }) {
   const invoices = await fetchFilteredInvoices(query, currentPage);
 
-  // FIX: SWRを使った場合にページを押しても情報が更新されない
+  // FIXME: SWRを使った場合にページを押しても情報が更新されない
   // const searchParams: InvoiceSearchParams = { query, currentPage };
   // const {
   //   data: LatestInvoices,
