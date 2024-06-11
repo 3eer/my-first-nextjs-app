@@ -151,7 +151,9 @@ export async function fetchInvoicesTotalPageCount(query: string) {
       }
     });
 
-    return invoices.length;
+    if (invoices.length === 0) return 0;
+
+    return Math.ceil(invoices.length / ITEMS_PER_PAGE);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoices.');

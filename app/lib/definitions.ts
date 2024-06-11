@@ -81,3 +81,10 @@ export type FormattedCustomersTable = {
   total_pending: string;
   total_paid: string;
 };
+
+export type ValidationError = {
+  message: string;
+  field?: string | number;
+};
+
+export type ValidationErrors = ValidationError[] | null;

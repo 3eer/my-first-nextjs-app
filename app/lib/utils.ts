@@ -1,4 +1,6 @@
 import { Revenue } from '@prisma/client';
+import { ValidationError, ValidationErrors } from './definitions';
+import { ZodIssue } from 'zod';
 
 export const formatCurrency = (amount: number) => {
   return amount.toLocaleString('ja-JP', {
@@ -6,6 +8,22 @@ export const formatCurrency = (amount: number) => {
     currency: 'JPY',
   });
 };
+
+export function formatErrorMessages(errors: ZodIssue[] | { message: string; } | null): ValidationError[] | null {
+  if (!errors) return null;
+  if (typeof errors === 'object' && 'message' in errors) {
+    return [{ message: errors.message }];
+  }
+  return (errors as ZodIssue[]).map((error: ZodIssue) => {
+    return { message: error.message, field: error.path[0] };
+  });
+}
+
+export function isError(field: string, errors: ValidationErrors) {
+  if (!errors || errors.length === 0) return false;
+
+  return errors.map(error => error.field).includes(field);
+}
 
 export const formatDateToLocal = (
   date: Date,
