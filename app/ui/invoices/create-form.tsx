@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { ErrorMessages } from '@/app/components/molecuels/ErrorMessages/ErrorMessages';
+import { useFormState } from 'react-dom';
 import { InvoiceStatus, Customer } from '@prisma/client';
 import Link from 'next/link';
 import {
@@ -11,33 +12,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createInvoice } from '@/app/lib/actions';
-import { formatErrorMessages, isError } from '@/app/lib/utils';
-import { ValidationErrors } from '@/app/lib/definitions';
 
 export default function Form({ customers }: { customers: Customer[] }) {
-  const [errorMessages, setErrorMessage] = useState<ValidationErrors>(null);
-  const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const errors = await createInvoice(formData);
-    setErrorMessage(formatErrorMessages(errors));
-  };
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(createInvoice, initialState);
 
   return (
-    <form action={createInvoice} onSubmit={handleSubmit}>
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {errorMessages && errorMessages.length > 0 && (
-          <div className="mb-5 bg-red-600 p-2">
-            {errorMessages.map((error, index) => (
-              <span
-                key={index}
-                className="block p-1 text-sm font-medium text-white"
-              >
-                {error.field} is {error.message}
-              </span>
-            ))}
-          </div>
-        )}
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
@@ -47,8 +29,9 @@ export default function Form({ customers }: { customers: Customer[] }) {
             <select
               id="customer"
               name="customerId"
-              className={`${isError('customerId', errorMessages) ? 'border-red-400' : ''} peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500`}
+              className={`${state.errors?.customerId ? 'border-red-400' : ''} peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500`}
               defaultValue=""
+              aria-describedby="customer-error"
             >
               <option value="" disabled>
                 Select a customer
@@ -61,6 +44,14 @@ export default function Form({ customers }: { customers: Customer[] }) {
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          {state.errors?.customerId && (
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              <ErrorMessages
+                errors={state.errors?.customerId}
+                className="mt-2 text-sm text-red-500"
+              />
+            </div>
+          )}
         </div>
 
         {/* Invoice Amount */}
@@ -76,10 +67,18 @@ export default function Form({ customers }: { customers: Customer[] }) {
                 type="number"
                 step="0.01"
                 placeholder="Enter USD amount"
-                className={`${isError('amount', errorMessages) ? 'border-red-400' : ''} peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500`}
+                className={`${state.errors?.amount ? 'border-red-400' : ''} peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500`}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
+            {state.errors?.amount && (
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              <ErrorMessages
+                errors={state.errors?.amount}
+                className="mt-2 text-sm text-red-500"
+              />
+            </div>
+          )}
           </div>
         </div>
 
@@ -89,7 +88,7 @@ export default function Form({ customers }: { customers: Customer[] }) {
             Set the invoice status
           </legend>
           <div
-            className={`${isError('status', errorMessages) ? 'border-red-400' : ''} rounded-md border border-gray-200 bg-white px-[14px] py-3`}
+            className={`${state.errors?.status ? 'border-red-400' : ''} rounded-md border border-gray-200 bg-white px-[14px] py-3`}
           >
             <div className="flex gap-4">
               <div className="flex items-center">
@@ -125,6 +124,14 @@ export default function Form({ customers }: { customers: Customer[] }) {
             </div>
           </div>
         </fieldset>
+        {state.errors?.status && (
+            <div id="customer-error" aria-live="polite" aria-atomic="true">
+              <ErrorMessages
+                errors={state.errors?.status}
+                className="mt-2 text-sm text-red-500"
+              />
+            </div>
+          )}
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link

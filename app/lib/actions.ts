@@ -1,46 +1,75 @@
 'use server';
 
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
+import { InvoiceStatus, PrismaClient } from '@prisma/client';
 import { InvoiceSchema } from '@/prisma/zod/schemas';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-const CreateInvoice = InvoiceSchema.omit({
-  id: true,
-  date: true,
-  createdAt: true,
-  updatedAt: true,
-});
-const UpdateInvoice = InvoiceSchema.omit({
-  id: true,
-  date: true,
-  createdAt: true,
-  updatedAt: true,
-});
 const prisma = new PrismaClient();
 
-export async function createInvoice(formData: FormData) {
-  try {
-    const { customerId, amount, status } = CreateInvoice.parse({
-      customerId: formData.get('customerId'),
-      amount: formData.get('amount'),
-      status: formData.get('status'),
-    });
+export type InvoiceFormState = {
+  errors?: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
 
+const InvoiceFormSchema = InvoiceSchema.extend({
+  customerId: z.string({
+    invalid_type_error: 'Please select a customer.',
+  }),
+  amount: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter an amount greater than 0.' }),
+  status: z.enum([InvoiceStatus.Paid, InvoiceStatus.Pending], {
+    invalid_type_error: 'Please select an invoice status.',
+  }),
+});
+
+const CreateInvoice = InvoiceFormSchema.omit({
+  id: true,
+  date: true,
+  createdAt: true,
+  updatedAt: true,
+});
+const UpdateInvoice = InvoiceFormSchema.omit({
+  id: true,
+  date: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export async function createInvoice(
+  prevState: InvoiceFormState,
+  formData: FormData,
+): Promise<InvoiceFormState> {
+  const validatedFields = CreateInvoice.safeParse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  try {
+    const { customerId, amount, status } = validatedFields.data;
     await prisma.invoice.create({
       data: {
         customerId: customerId,
         amount: amount,
-        status: status,
+        status: status as InvoiceStatus,
         date: new Date(),
       },
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return error.errors;
-    }
-
     return {
       message: 'Database Error: Failed to Create Invoice.',
     };
@@ -64,7 +93,7 @@ export async function updateInvoice(id: string, formData: FormData) {
       data: {
         customerId: customerId,
         amount: amount,
-        status: status,
+        status: status as InvoiceStatus,
       },
     });
   } catch (error) {
