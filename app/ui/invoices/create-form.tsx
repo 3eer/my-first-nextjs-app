@@ -27,9 +27,12 @@ export default function Form({ customers }: { customers: Customer[] }) {
     <form action={createInvoice} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {errorMessages && errorMessages.length > 0 && (
-          <div className="bg-red-600 p-2 mb-5">
+          <div className="mb-5 bg-red-600 p-2">
             {errorMessages.map((error, index) => (
-              <span key={index} className="p-1 block text-sm font-medium text-white">
+              <span
+                key={index}
+                className="block p-1 text-sm font-medium text-white"
+              >
                 {error.field} is {error.message}
               </span>
             ))}
@@ -85,7 +88,9 @@ export default function Form({ customers }: { customers: Customer[] }) {
           <legend className="mb-2 block text-sm font-medium">
             Set the invoice status
           </legend>
-          <div className={`${isError('status', errorMessages) ? 'border-red-400' : ''} rounded-md border border-gray-200 bg-white px-[14px] py-3`}>
+          <div
+            className={`${isError('status', errorMessages) ? 'border-red-400' : ''} rounded-md border border-gray-200 bg-white px-[14px] py-3`}
+          >
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input

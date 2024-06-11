@@ -9,7 +9,7 @@ import { lusitana } from '@/app/ui/fonts';
 
 // Mocking next/image
 jest.mock('next/image', () => (props: any) => {
-  return <img {...props} />;
+  // return <img {...props} />;
 });
 
 // Mocking formatCurrency

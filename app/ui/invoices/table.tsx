@@ -51,7 +51,9 @@ export default async function InvoicesTable({
                       />
                       <p>{invoice.customer.name}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{invoice.customer.email}</p>
+                    <p className="text-sm text-gray-500">
+                      {invoice.customer.email}
+                    </p>
                   </div>
                   <InvoiceStatus status={invoice.status} />
                 </div>

@@ -9,7 +9,9 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
-export function formatErrorMessages(errors: ZodIssue[] | { message: string; } | null): ValidationError[] | null {
+export function formatErrorMessages(
+  errors: ZodIssue[] | { message: string } | null,
+): ValidationError[] | null {
   if (!errors) return null;
   if (typeof errors === 'object' && 'message' in errors) {
     return [{ message: errors.message }];
@@ -22,13 +24,10 @@ export function formatErrorMessages(errors: ZodIssue[] | { message: string; } | 
 export function isError(field: string, errors: ValidationErrors) {
   if (!errors || errors.length === 0) return false;
 
-  return errors.map(error => error.field).includes(field);
+  return errors.map((error) => error.field).includes(field);
 }
 
-export const formatDateToLocal = (
-  date: Date,
-  locale: string = 'ja-JP',
-) => {
+export const formatDateToLocal = (date: Date, locale: string = 'ja-JP') => {
   // const options: Intl.DateTimeFormatOptions = {
   //   day: 'numeric',
   //   month: 'short',

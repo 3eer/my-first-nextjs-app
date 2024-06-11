@@ -93,13 +93,16 @@ export async function fetchCardData() {
 }
 
 export const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(query: string, currentPage: number) {
+export async function fetchFilteredInvoices(
+  query: string,
+  currentPage: number,
+) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const invoices = await prisma.invoice.findMany({
       where: {
         customer: {
-          'OR': [
+          OR: [
             {
               name: {
                 contains: query,
@@ -135,7 +138,7 @@ export async function fetchInvoicesTotalPageCount(query: string) {
     const invoices = await prisma.invoice.findMany({
       where: {
         customer: {
-          'OR': [
+          OR: [
             {
               name: {
                 contains: query,
@@ -148,7 +151,7 @@ export async function fetchInvoicesTotalPageCount(query: string) {
             },
           ],
         },
-      }
+      },
     });
 
     if (invoices.length === 0) return 0;

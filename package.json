@@ -4,6 +4,7 @@
     "build": "next build",
     "build-storybook": "storybook build",
     "dev": "next dev",
+    "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start",

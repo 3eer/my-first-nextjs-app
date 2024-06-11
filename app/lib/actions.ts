@@ -6,8 +6,18 @@ import { InvoiceSchema } from '@/prisma/zod/schemas';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-const CreateInvoice = InvoiceSchema.omit({ id: true, date: true, createdAt: true, updatedAt: true });
-const UpdateInvoice = InvoiceSchema.omit({ id: true, date: true, createdAt: true, updatedAt: true });
+const CreateInvoice = InvoiceSchema.omit({
+  id: true,
+  date: true,
+  createdAt: true,
+  updatedAt: true,
+});
+const UpdateInvoice = InvoiceSchema.omit({
+  id: true,
+  date: true,
+  createdAt: true,
+  updatedAt: true,
+});
 const prisma = new PrismaClient();
 
 export async function createInvoice(formData: FormData) {
@@ -24,7 +34,7 @@ export async function createInvoice(formData: FormData) {
         amount: amount,
         status: status,
         date: new Date(),
-      }
+      },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -49,7 +59,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   try {
     await prisma.invoice.update({
       where: {
-        id: id
+        id: id,
       },
       data: {
         customerId: customerId,
@@ -71,7 +81,7 @@ export async function deleteInvoice(id: string) {
   try {
     await prisma.invoice.delete({
       where: {
-        id: id
+        id: id,
       },
     });
   } catch (error) {

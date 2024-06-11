@@ -28,7 +28,10 @@ export default async function Page({
         <Search placeholder="Search invoices..." />
         <CreateInvoice />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton rows={ITEMS_PER_PAGE} />}>
+      <Suspense
+        key={query + currentPage}
+        fallback={<InvoicesTableSkeleton rows={ITEMS_PER_PAGE} />}
+      >
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
