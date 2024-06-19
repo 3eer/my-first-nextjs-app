@@ -6,18 +6,20 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoiceTableRow } from '@/app/components/molecuels/InvoiceTableRow';
 import { InvoiceWithCustomer } from '@/app/lib/definitions';
 import { LatestInvoicesSkeleton } from '@/app/ui/skeletons';
+import { origin } from '@/app/lib/utils';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-preload('/api/invoices', fetcher);
+preload(`${origin}/api/invoices`, fetcher);
 
 export default function LatestInvoices() {
   const {
     data: LatestInvoices,
     error,
     isLoading,
-  } = useSWR<InvoiceWithCustomer[]>('/api/invoices', fetcher, {
+  } = useSWR<InvoiceWithCustomer[]>(`${origin}/api/invoices`, fetcher, {
     suspense: true,
+    fallbackData: [],
   });
   if (error) return <div>Failed to load invoices</div>;
   if (!LatestInvoices) return;

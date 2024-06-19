@@ -9,7 +9,6 @@ import {
 } from './definitions';
 import { PrismaClient, InvoiceStatus } from '@prisma/client';
 import { formatCurrency } from './utils';
-import { IdentificationIcon } from '@heroicons/react/24/outline';
 
 const prisma = new PrismaClient();
 
@@ -24,6 +23,7 @@ export async function fetchMonthlyRevenue() {
       orderBy: {
         month: 'asc',
       },
+      skip: 0,
       take: 12,
     });
   } catch (error) {
@@ -39,6 +39,7 @@ export async function fetchLatestInvoices(): Promise<InvoiceWithCustomer[]> {
       include: {
         customer: true,
       },
+      skip: 0,
       take: 5,
     });
   } catch (error) {
@@ -97,7 +98,7 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offset: number = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const invoices = await prisma.invoice.findMany({
       where: {

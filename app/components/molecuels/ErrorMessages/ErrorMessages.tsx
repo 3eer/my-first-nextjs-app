@@ -8,11 +8,13 @@ export function ErrorMessages({ errors, className }: ErrorMessagesProps) {
 
   return (
     <>
-      {
-        errors.map((error: string, index: number) => {
-          return <p className={className} key={index}>{error}</p>;
-        })
-      }
+      {errors.map((error: string, index: number) => {
+        return (
+          <p className={className} key={index}>
+            {error}
+          </p>
+        );
+      })}
     </>
   );
 }

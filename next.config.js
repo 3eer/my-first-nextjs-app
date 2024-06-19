@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+require('dotenv').config();
+const nextConfig = {
+  env: {
+    ORIGIN: process.env.ORIGIN,
+  },
+};
 
 module.exports = nextConfig;

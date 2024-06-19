@@ -2,6 +2,8 @@ import { Revenue } from '@prisma/client';
 import { ValidationError, ValidationErrors } from './definitions';
 import { ZodIssue } from 'zod';
 
+export const origin = process.env.ORIGIN;
+
 export const formatCurrency = (amount: number) => {
   return amount.toLocaleString('ja-JP', {
     style: 'currency',

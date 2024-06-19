@@ -3,8 +3,13 @@ import {
   InvoiceWithCustomer,
   InvoiceSearchParams,
 } from '@/app/lib/definitions';
+import { NextRequest } from 'next/server';
 
-export async function GET(query: string, currentPage: number) {
+export const dynamic = 'force-dynamic';
+export async function GET(
+  req: NextRequest,
+  { query, currentPage }: InvoiceSearchParams,
+) {
   const data: InvoiceWithCustomer[] = await fetchFilteredInvoices(
     query,
     currentPage,
