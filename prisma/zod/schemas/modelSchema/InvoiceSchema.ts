@@ -11,7 +11,7 @@ export const InvoiceSchema = z.object({
   status: InvoiceStatusSchema,
   id: z.string().uuid(),
   customerId: z.string(),
-  amount: z.coerce.number().int(), // WARNING: npx prisma generateした際にcoerceが無くなる
+  amount: z.number().int(),
   date: z.coerce.date(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),

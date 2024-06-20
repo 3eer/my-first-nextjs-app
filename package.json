@@ -62,7 +62,7 @@
     "ts-node": "^10.9.2"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=v21.6.2"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
