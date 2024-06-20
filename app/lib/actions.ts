@@ -1,6 +1,8 @@
 'use server';
 
 import { z } from 'zod';
+import { signIn } from '@/app/lib/auth';
+import { AuthError } from 'next-auth';
 import { InvoiceStatus, PrismaClient } from '@prisma/client';
 import { InvoiceSchema } from '@/prisma/zod/schemas';
 import { revalidatePath } from 'next/cache';
@@ -120,4 +122,26 @@ export async function deleteInvoice(id: string) {
   }
 
   revalidatePath('/dashboard/invoices');
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', Object.fromEntries(formData));
+    console.log('User signed in');
+  } catch (error) {
+    console.error(error);
+    if (error instanceof AuthError) {
+      console.error(error);
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
 }

@@ -35,13 +35,14 @@ export async function fetchLatestInvoices(): Promise<InvoiceWithCustomer[]> {
   // テストの為に遅くしてる
   await new Promise((resolve) => setTimeout(resolve, 1000));
   try {
-    return await prisma.invoice.findMany({
+    const invoices = await prisma.invoice.findMany({
       include: {
         customer: true,
       },
       skip: 0,
       take: 5,
     });
+    return invoices;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch the latest invoices.');
@@ -221,10 +222,14 @@ export async function fetchFilteredCustomers(query: string) {
   }
 }
 
-export async function getUser(email: string) {
+export async function fetchUser(email: string) {
   try {
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0] as User;
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    return user;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
