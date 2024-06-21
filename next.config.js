@@ -10,7 +10,7 @@ const nextConfig = {
   images: {
     domains: [
       'localhost',
-      process.env.NEXT_PUBLIC_APP_URL ? process.env.NEXT_PUBLIC_APP_URL : '',
+      process.env.IMAGE_HOST ? process.env.IMAGE_HOST : '',
     ],
   },
   headers: [
