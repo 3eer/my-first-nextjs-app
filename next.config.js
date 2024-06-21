@@ -5,6 +5,13 @@ const nextConfig = {
   env: {
     ORIGIN: process.env.ORIGIN,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  },
+  images: {
+    domains: [
+      'localhost',
+      process.env.NEXT_PUBLIC_APP_URL ? process.env.NEXT_PUBLIC_APP_URL : '',
+    ],
   },
   headers: [
     {
@@ -37,7 +44,7 @@ const nextConfig = {
     },
     {
       key: 'Content-Security-Policy',
-      value: "default-src 'self'; img-src *;"
+      value: 'default-src 'self'; img-src *;'
     },
   ],
 };
