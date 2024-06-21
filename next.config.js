@@ -44,7 +44,7 @@ const nextConfig = {
     },
     {
       key: 'Content-Security-Policy',
-      value: 'default-src 'self'; img-src *;'
+      value: "default-src 'self'; img-src *;"
     },
   ],
 };
