@@ -3,7 +3,6 @@ import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
-import { origin } from '@/app/lib/utils';
 
 // const fetcher = (url: string, options: InvoiceSearchParams) => fetch(url, options).then((res) => res.json());
 
@@ -43,7 +42,7 @@ export default async function InvoicesTable({
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={`${origin}${invoice.customer.imageUrl}`}
+                        src={invoice.customer.imageUrl}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}

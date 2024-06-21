@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { formatCurrency } from '@/app/lib/utils';
 import { lusitana } from '@/app/ui/fonts';
 import { InvoiceWithCustomer } from '@/app/lib/definitions';
-import { origin } from '@/app/lib/utils';
 
 type dataProps = {
   invoice: InvoiceWithCustomer;
@@ -19,7 +18,7 @@ export default function InvoiceTableRow({ invoice, index }: dataProps) {
     >
       <div className="flex items-center">
         <Image
-          src={`${origin}${invoice.customer.imageUrl}`}
+          src={invoice.customer.imageUrl}
           alt={`${invoice.customer.name}'s profile picture`}
           className="mr-4 rounded-full"
           width={32}
